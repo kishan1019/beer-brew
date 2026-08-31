@@ -1,0 +1,9 @@
+node_modules/
+dist/
+backend/brewhouse.db
+backend/brewhouse.db-shm
+backend/brewhouse.db-wal
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/.env
+frontend/.env

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFE7D7;font-family:'IBM Plex Sans',system-ui,sans-serif}
+a{color:#C2600F}a:hover{color:#8F450A}
+::-webkit-scrollbar{width:0;height:0}
+@keyframes bub{0%{transform:translateY(0) scale(.7);opacity:0}20%{opacity:.9}100%{transform:translateY(-46px) scale(1.15);opacity:0}}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(120% 80% at 50% 0%,#F7F0E1 0%,#E7DAC2 60%,#DCCBAC 100%);display:flex;flex-direction:column;align-items:center;gap:20px;padding:28px 16px 56px;box-sizing:border-box">
+
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="width:30px;height:30px;border-radius:9px;background:#1B1512;display:flex;align-items:center;justify-content:center;color:#F0B429;font:800 15px 'Bricolage Grotesque',sans-serif">B</div>
+    <div style="font:800 17px 'Bricolage Grotesque',sans-serif;color:#1B1512;letter-spacing:-.02em">Bubble &amp; Bottle</div>
+    <div style="display:flex;background:#1B1512;border-radius:999px;padding:3px;gap:2px;margin-left:6px">
+      <button onClick="{{ setGuest }}" style="{{ tabGuestStyle }}">Guest</button>
+      <button onClick="{{ setAdmin }}" style="{{ tabAdminStyle }}">Host</button>
+    </div>
+  </div>
+
+  <div style="position:relative;width:392px;height:812px;border-radius:46px;background:#1B1512;padding:11px;box-sizing:border-box;box-shadow:0 30px 60px -20px rgba(40,26,10,.5),0 0 0 2px rgba(255,255,255,.35) inset">
+    <div style="position:absolute;top:22px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:14px;background:#1B1512;z-index:9"></div>
+    <div style="width:100%;height:100%;border-radius:36px;overflow:hidden;background:#FBF6EC;position:relative;display:flex;flex-direction:column">
+
+      <div style="height:44px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 6px;font:600 12px 'IBM Plex Sans';color:rgba(251,246,236,.92);background:transparent;position:absolute;top:0;left:0;right:0;z-index:8;pointer-events:none">
+        <span>9:41</span><span style="display:flex;align-items:center;gap:6px"><span style="display:flex;align-items:flex-end;gap:1.5px"><i style="display:block;width:3px;height:4px;border-radius:1px;background:currentColor"></i><i style="display:block;width:3px;height:6px;border-radius:1px;background:currentColor"></i><i style="display:block;width:3px;height:8px;border-radius:1px;background:currentColor"></i><i style="display:block;width:3px;height:10px;border-radius:1px;background:currentColor"></i></span><span style="display:block;width:20px;height:10px;border:1.5px solid currentColor;border-radius:3px;padding:1.5px;box-sizing:border-box"><i style="display:block;width:100%;height:100%;border-radius:1px;background:currentColor"></i></span></span>
+      </div>
+
+      <!-- ============ GATE ============ -->
+      <sc-if value="{{ isGate }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:1;display:flex;flex-direction:column;background:linear-gradient(175deg,#1B1512 0%,#3A2412 55%,#7A3F0C 100%);padding:74px 26px 30px;box-sizing:border-box;position:relative;overflow:hidden">
+          <div style="position:absolute;left:34px;bottom:170px;width:12px;height:12px;border-radius:50%;background:rgba(240,180,41,.5);animation:bub 3.2s ease-in infinite"></div>
+          <div style="position:absolute;left:76px;bottom:150px;width:8px;height:8px;border-radius:50%;background:rgba(240,180,41,.35);animation:bub 4s ease-in .8s infinite"></div>
+          <div style="position:absolute;right:52px;bottom:190px;width:14px;height:14px;border-radius:50%;background:rgba(240,180,41,.28);animation:bub 3.6s ease-in 1.6s infinite"></div>
+
+          <div style="font:600 11px 'IBM Plex Mono';letter-spacing:.18em;color:#F0B429;text-transform:uppercase">Kitchen Brewery · Amsterdam</div>
+          <div style="font:800 42px/1.02 'Bricolage Grotesque',sans-serif;color:#FBF6EC;letter-spacing:-.035em;margin:14px 0 10px">You brewed<br>something.<br>Let's watch it<br>wake up.</div>
+          <div style="font:400 14px/1.5 'IBM Plex Sans';color:rgba(251,246,236,.62);max-width:280px">Type the code from your brew day card to follow your batch — every bubble, every sample, all the way to the crate.</div>
+
+          <div style="margin-top:auto;display:flex;flex-direction:column;gap:12px">
+            <div style="font:600 11px 'IBM Plex Mono';letter-spacing:.16em;color:rgba(251,246,236,.5);text-transform:uppercase">Batch code</div>
+            <input value="{{ code }}" onChange="{{ onCode }}" placeholder="MALT-482" style="width:100%;box-sizing:border-box;background:rgba(251,246,236,.08);border:1.5px solid rgba(240,180,41,.4);border-radius:18px;padding:18px 20px;font:600 22px 'IBM Plex Mono';letter-spacing:.14em;color:#FBF6EC;outline:none;text-transform:uppercase" style-focus="border-color:#F0B429;background:rgba(251,246,236,.14)">
+            <sc-if value="{{ gateError }}" hint-placeholder-val="{{ false }}">
+              <div style="font:500 12.5px 'IBM Plex Sans';color:#F2856B">That code isn't pouring. Try <b>MALT-482</b>.</div>
+            </sc-if>
+            <button onClick="{{ unlock }}" style="width:100%;background:#F0B429;border:none;border-radius:18px;padding:18px;font:800 16px 'Bricolage Grotesque',sans-serif;color:#1B1512;cursor:pointer;letter-spacing:-.01em" style-hover="background:#FFC94A">Open my batch →</button>
+            <div style="text-align:center;font:400 12px 'IBM Plex Sans';color:rgba(251,246,236,.4)">Booked via Airbnb Experiences or GetYourGuide? Your code is on the confirmation email.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ GUEST APP ============ -->
+      <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+          <div style="flex:none;padding:56px 22px 16px;background:linear-gradient(160deg,#1B1512,#4A2A11);color:#FBF6EC">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <div style="font:600 10.5px 'IBM Plex Mono';letter-spacing:.16em;color:#F0B429;text-transform:uppercase">Batch MALT-482 · 20 L</div>
+                <div style="font:800 26px/1.1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;margin-top:5px">Nachtwacht Dubbel</div>
+              </div>
+              <button onClick="{{ lock }}" style="background:rgba(251,246,236,.12);border:none;border-radius:12px;width:34px;height:34px;color:#FBF6EC;font-size:14px;cursor:pointer">⏻</button>
+            </div>
+          </div>
+
+          <div style="flex:1;overflow-y:auto;padding:0 0 96px">
+
+            <!-- BREW TAB -->
+            <sc-if value="{{ isBrew }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:18px 20px 0;display:flex;flex-direction:column;gap:16px">
+
+                <div style="background:#1B1512;border-radius:26px;padding:22px;color:#FBF6EC;position:relative;overflow:hidden">
+                  <div style="position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(240,180,41,.28),transparent 70%)"></div>
+                  <div style="font:600 10.5px 'IBM Plex Mono';letter-spacing:.16em;color:rgba(251,246,236,.5);text-transform:uppercase">Right now</div>
+                  <div style="display:flex;align-items:baseline;gap:10px;margin-top:8px">
+                    <div style="font:800 46px 'Bricolage Grotesque',sans-serif;letter-spacing:-.04em;color:#F0B429">Day 16</div>
+                    <div style="font:500 13px 'IBM Plex Sans';color:rgba(251,246,236,.65)">of ~24 to bottling</div>
+                  </div>
+                  <div style="font:700 17px 'Bricolage Grotesque',sans-serif;margin-top:6px">Conditioning — the yeast is cleaning up after itself</div>
+                  <div style="height:9px;border-radius:99px;background:rgba(251,246,236,.14);margin-top:16px;overflow:hidden">
+                    <div style="height:100%;width:67%;border-radius:99px;background:linear-gradient(90deg,#F0B429,#E2711D)"></div>
+                  </div>
+                  <div style="display:flex;gap:16px;margin-top:16px">
+                    <div><div style="font:700 19px 'Bricolage Grotesque';color:#FBF6EC">1.018</div><div style="font:500 10.5px 'IBM Plex Mono';color:rgba(251,246,236,.45);letter-spacing:.08em">GRAVITY</div></div>
+                    <div><div style="font:700 19px 'Bricolage Grotesque';color:#FBF6EC">6.4%</div><div style="font:500 10.5px 'IBM Plex Mono';color:rgba(251,246,236,.45);letter-spacing:.08em">EST. ABV</div></div>
+                    <div><div style="font:700 19px 'Bricolage Grotesque';color:#FBF6EC">3 / min</div><div style="font:500 10.5px 'IBM Plex Mono';color:rgba(251,246,236,.45);letter-spacing:.08em">BUBBLES</div></div>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="font:700 13px 'Bricolage Grotesque';color:#1B1512;letter-spacing:.02em">THE ROAD TO THE CRATE</div>
+                  <div style="background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;padding:6px 16px">
+                    <div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #F1E9D9">
+                      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#4C7C4A;color:#fff;display:flex;align-items:center;justify-content:center;font:700 13px 'IBM Plex Sans'">✓</div>
+                      <div style="flex:1"><div style="font:700 14px 'Bricolage Grotesque';color:#1B1512">Brew day</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63">Sat 14 Aug · you mashed, boiled and pitched</div></div>
+                    </div>
+                    <div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #F1E9D9">
+                      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#4C7C4A;color:#fff;display:flex;align-items:center;justify-content:center;font:700 13px 'IBM Plex Sans'">✓</div>
+                      <div style="flex:1"><div style="font:700 14px 'Bricolage Grotesque';color:#1B1512">Primary fermentation</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63">Day 1–11 · airlock went wild, then calmed</div></div>
+                    </div>
+                    <div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #F1E9D9">
+                      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#F0B429;color:#1B1512;display:flex;align-items:center;justify-content:center;font:700 12px 'IBM Plex Sans';animation:pop .5s ease">●</div>
+                      <div style="flex:1"><div style="font:700 14px 'Bricolage Grotesque';color:#1B1512">Conditioning <span style="font:600 10px 'IBM Plex Mono';background:#FDF0CF;color:#8A5A08;padding:3px 6px;border-radius:6px;letter-spacing:.08em">NOW</span></div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63">Day 12–24 · flavours rounding out</div></div>
+                    </div>
+                    <div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #F1E9D9;opacity:.45">
+                      <div style="width:26px;height:26px;flex:none;border-radius:50%;border:1.5px dashed #B6A78D"></div>
+                      <div style="flex:1"><div style="font:700 14px 'Bricolage Grotesque';color:#1B1512">Bottling</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63">Est. Sat 7 Sep · sugar in, caps on</div></div>
+                    </div>
+                    <div style="display:flex;gap:14px;padding:13px 0;opacity:.45">
+                      <div style="width:26px;height:26px;flex:none;border-radius:50%;border:1.5px dashed #B6A78D"></div>
+                      <div style="flex:1"><div style="font:700 14px 'Bricolage Grotesque';color:#1B1512">Your 5 bottles</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63">20-day pickup window opens after bottling</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="font:700 13px 'Bricolage Grotesque';color:#1B1512;letter-spacing:.02em">STICKERS EARNED <span style="color:#B6A78D">3 / 6</span></div>
+                  <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <div style="width:74px;height:82px;border-radius:18px;background:#FDF0CF;border:1.5px solid #F0B429;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><div style="font-size:24px">🌾</div><div style="font:700 9.5px 'IBM Plex Mono';color:#8A5A08;text-align:center;letter-spacing:.04em">MASH<br>MASTER</div></div>
+                    <div style="width:74px;height:82px;border-radius:18px;background:#FDF0CF;border:1.5px solid #F0B429;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><div style="font-size:24px">🔥</div><div style="font:700 9.5px 'IBM Plex Mono';color:#8A5A08;text-align:center;letter-spacing:.04em">BOIL<br>SURVIVOR</div></div>
+                    <div style="width:74px;height:82px;border-radius:18px;background:#FDF0CF;border:1.5px solid #F0B429;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><div style="font-size:24px">💨</div><div style="font:700 9.5px 'IBM Plex Mono';color:#8A5A08;text-align:center;letter-spacing:.04em">FIRST<br>BUBBLE</div></div>
+                    <div style="width:74px;height:82px;border-radius:18px;background:#F4EEE1;border:1.5px dashed #CDBEA3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:.6"><div style="font-size:24px">🧪</div><div style="font:700 9.5px 'IBM Plex Mono';color:#8A7A63;text-align:center;letter-spacing:.04em">GRAVITY<br>NERD</div></div>
+                    <div style="width:74px;height:82px;border-radius:18px;background:#F4EEE1;border:1.5px dashed #CDBEA3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:.6"><div style="font-size:24px">🍾</div><div style="font:700 9.5px 'IBM Plex Mono';color:#8A7A63;text-align:center;letter-spacing:.04em">CAPPED<br>IT</div></div>
+                    <div style="width:74px;height:82px;border-radius:18px;background:#F4EEE1;border:1.5px dashed #CDBEA3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:.6"><div style="font-size:24px">📦</div><div style="font:700 9.5px 'IBM Plex Mono';color:#8A7A63;text-align:center;letter-spacing:.04em">CRATE<br>CLAIMED</div></div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- JOURNAL TAB -->
+            <sc-if value="{{ isJournal }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 20px 0;display:flex;flex-direction:column;gap:14px">
+                <div style="font:400 13px/1.5 'IBM Plex Sans';color:#8A7A63">Posted from the kitchen by <b style="color:#1B1512">Joris</b>, your host.</div>
+
+                <div style="background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;overflow:hidden">
+                  <div style="height:150px;background:repeating-linear-gradient(135deg,#EADFC8,#EADFC8 10px,#E3D6BB 10px,#E3D6BB 20px);display:flex;align-items:center;justify-content:center;font:500 11.5px 'IBM Plex Mono';color:#9A8B72;letter-spacing:.08em">PHOTO · AIRLOCK CLOSE-UP</div>
+                  <div style="padding:16px">
+                    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font:700 15px 'Bricolage Grotesque';color:#1B1512">Day 16 — quiet and clear</div><div style="font:500 11px 'IBM Plex Mono';color:#B6A78D">30 AUG</div></div>
+                    <div style="font:400 13.5px/1.55 'IBM Plex Sans';color:#5C4F3E;margin-top:7px">Bubbling is down to about 3 a minute. Krausen has dropped and the beer is starting to clear from the top down — exactly where a dubbel should be at this point.</div>
+                    <div style="display:flex;gap:7px;margin-top:12px;flex-wrap:wrap">
+                      <div style="background:#FDF0CF;color:#8A5A08;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">SG 1.018</div>
+                      <div style="background:#FDF0CF;color:#8A5A08;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">19.4 °C</div>
+                      <div style="background:#E7F0E4;color:#3D6B3B;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">ON TRACK</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;overflow:hidden">
+                  <div style="height:150px;background:repeating-linear-gradient(135deg,#EADFC8,#EADFC8 10px,#E3D6BB 10px,#E3D6BB 20px);display:flex;align-items:center;justify-content:center;font:500 11.5px 'IBM Plex Mono';color:#9A8B72;letter-spacing:.08em">PHOTO · HYDROMETER SAMPLE</div>
+                  <div style="padding:16px">
+                    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font:700 15px 'Bricolage Grotesque';color:#1B1512">Day 11 — first taste test</div><div style="font:500 11px 'IBM Plex Mono';color:#B6A78D">25 AUG</div></div>
+                    <div style="font:400 13.5px/1.55 'IBM Plex Sans';color:#5C4F3E;margin-top:7px">Pulled a sample. Raisin and dark bread, a bit of warmth from the fermentation. Moving it to the cool corner for conditioning.</div>
+                    <div style="display:flex;gap:7px;margin-top:12px;flex-wrap:wrap">
+                      <div style="background:#FDF0CF;color:#8A5A08;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">SG 1.022</div>
+                      <div style="background:#FDF0CF;color:#8A5A08;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">TASTE: RAISIN</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;overflow:hidden">
+                  <div style="height:150px;background:repeating-linear-gradient(135deg,#EADFC8,#EADFC8 10px,#E3D6BB 10px,#E3D6BB 20px);display:flex;align-items:center;justify-content:center;font:500 11.5px 'IBM Plex Mono';color:#9A8B72;letter-spacing:.08em">VIDEO · 12s OF BUBBLING</div>
+                  <div style="padding:16px">
+                    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font:700 15px 'Bricolage Grotesque';color:#1B1512">Day 2 — full chaos</div><div style="font:500 11px 'IBM Plex Mono';color:#B6A78D">16 AUG</div></div>
+                    <div style="font:400 13.5px/1.55 'IBM Plex Sans';color:#5C4F3E;margin-top:7px">Airlock going about once a second. The whole kitchen smells like banana bread. This is the loudest your beer will ever be.</div>
+                    <div style="display:flex;gap:7px;margin-top:12px;flex-wrap:wrap">
+                      <div style="background:#FDF0CF;color:#8A5A08;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">60 / MIN</div>
+                      <div style="background:#FDF0CF;color:#8A5A08;border-radius:8px;padding:5px 9px;font:600 11px 'IBM Plex Mono'">21.1 °C</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background:#F4EEE1;border:1.5px dashed #CDBEA3;border-radius:22px;padding:16px;text-align:center;font:400 13px/1.5 'IBM Plex Sans';color:#8A7A63">Day 1 · Brew day. <b style="color:#1B1512">You were there.</b></div>
+              </div>
+            </sc-if>
+
+            <!-- RECIPE TAB -->
+            <sc-if value="{{ isRecipe }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 20px 0;display:flex;flex-direction:column;gap:16px">
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+                  <div style="background:#1B1512;border-radius:16px;padding:12px 8px;text-align:center"><div style="font:700 17px 'Bricolage Grotesque';color:#F0B429">1.068</div><div style="font:600 9px 'IBM Plex Mono';color:rgba(251,246,236,.5);letter-spacing:.06em">OG</div></div>
+                  <div style="background:#1B1512;border-radius:16px;padding:12px 8px;text-align:center"><div style="font:700 17px 'Bricolage Grotesque';color:#F0B429">1.014</div><div style="font:600 9px 'IBM Plex Mono';color:rgba(251,246,236,.5);letter-spacing:.06em">FG</div></div>
+                  <div style="background:#1B1512;border-radius:16px;padding:12px 8px;text-align:center"><div style="font:700 17px 'Bricolage Grotesque';color:#F0B429">7.1%</div><div style="font:600 9px 'IBM Plex Mono';color:rgba(251,246,236,.5);letter-spacing:.06em">ABV</div></div>
+                  <div style="background:#1B1512;border-radius:16px;padding:12px 8px;text-align:center"><div style="font:700 17px 'Bricolage Grotesque';color:#F0B429">22</div><div style="font:600 9px 'IBM Plex Mono';color:rgba(251,246,236,.5);letter-spacing:.06em">IBU</div></div>
+                </div>
+
+                <div style="background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;padding:18px">
+                  <div style="font:700 13px 'Bricolage Grotesque';color:#1B1512;letter-spacing:.02em">GRAIN BILL · 20 L</div>
+                  <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1E9D9;font:500 13.5px 'IBM Plex Sans';color:#5C4F3E"><span>Pilsner malt</span><b style="color:#1B1512">4.20 kg</b></div>
+                  <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1E9D9;font:500 13.5px 'IBM Plex Sans';color:#5C4F3E"><span>Munich malt</span><b style="color:#1B1512">0.80 kg</b></div>
+                  <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1E9D9;font:500 13.5px 'IBM Plex Sans';color:#5C4F3E"><span>CaraMunich III</span><b style="color:#1B1512">0.35 kg</b></div>
+                  <div style="display:flex;justify-content:space-between;padding:10px 0;font:500 13.5px 'IBM Plex Sans';color:#5C4F3E"><span>Dark candi syrup D-90</span><b style="color:#1B1512">0.50 kg</b></div>
+                </div>
+
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1;background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;padding:16px">
+                    <div style="font:700 12px 'Bricolage Grotesque';color:#1B1512">HOPS</div>
+                    <div style="font:500 13px/1.6 'IBM Plex Sans';color:#5C4F3E;margin-top:6px">Styrian Golding<br><span style="color:#B6A78D">30 g · 60 min</span><br>Saaz<br><span style="color:#B6A78D">15 g · 10 min</span></div>
+                  </div>
+                  <div style="flex:1;background:#fff;border:1.5px solid #E7DCC6;border-radius:22px;padding:16px">
+                    <div style="font:700 12px 'Bricolage Grotesque';color:#1B1512">YEAST</div>
+                    <div style="font:500 13px/1.6 'IBM Plex Sans';color:#5C4F3E;margin-top:6px">Wyeast 1214<br><span style="color:#B6A78D">Belgian Abbey</span><br>19–21 °C<br><span style="color:#B6A78D">pitched 14 Aug</span></div>
+                  </div>
+                </div>
+
+                <div style="background:#FDF0CF;border-radius:22px;padding:18px">
+                  <div style="font:700 13px 'Bricolage Grotesque';color:#8A5A08;letter-spacing:.02em">WHAT'S HAPPENING IN THERE</div>
+                  <div style="font:400 13.5px/1.6 'IBM Plex Sans';color:#6B4A11;margin-top:8px">Right now the yeast has eaten most of the sugar and is turning back to the byproducts it left behind — reabsorbing the buttery and green-apple notes. That's why conditioning matters: nothing looks like it's happening, and everything is.</div>
+                  <button onClick="{{ toggleDeep }}" style="margin-top:12px;background:#8A5A08;border:none;border-radius:12px;padding:10px 14px;color:#FDF0CF;font:600 12.5px 'IBM Plex Sans';cursor:pointer">{{ deepLabel }}</button>
+                  <sc-if value="{{ deep }}" hint-placeholder-val="{{ false }}">
+                    <div style="font:400 13px/1.6 'IBM Plex Sans';color:#6B4A11;margin-top:12px;border-top:1px solid rgba(138,90,8,.2);padding-top:12px">Mash at 66 °C for 60 min converts starch to sugar. The 60-minute boil sterilises the wort and pulls bitterness from the hops. Cooling fast to 20 °C protects the beer from infection before the yeast takes over. Then it's just patience — about three weeks of it.</div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- PICKUP TAB -->
+            <sc-if value="{{ isPickup }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 20px 0;display:flex;flex-direction:column;gap:16px">
+                <div style="background:linear-gradient(150deg,#7A3F0C,#C2600F);border-radius:26px;padding:22px;color:#FBF6EC">
+                  <div style="font:600 10.5px 'IBM Plex Mono';letter-spacing:.16em;color:rgba(251,246,236,.7);text-transform:uppercase">Pickup window</div>
+                  <div style="font:800 30px/1.1 'Bricolage Grotesque';letter-spacing:-.03em;margin-top:8px">Opens ~7 Sep,<br>closes 27 Sep</div>
+                  <div style="font:400 13.5px/1.5 'IBM Plex Sans';color:rgba(251,246,236,.78);margin-top:10px">Once your batch is bottled you get 20 days to come by and collect <b>5 bottles</b> — your share of the 20 litres.</div>
+                  <div style="display:flex;gap:6px;margin-top:16px">
+                    <div style="flex:1;height:44px;border-radius:10px;background:rgba(251,246,236,.9);display:flex;align-items:center;justify-content:center;font-size:19px">🍺</div>
+                    <div style="flex:1;height:44px;border-radius:10px;background:rgba(251,246,236,.9);display:flex;align-items:center;justify-content:center;font-size:19px">🍺</div>
+                    <div style="flex:1;height:44px;border-radius:10px;background:rgba(251,246,236,.9);display:flex;align-items:center;justify-content:center;font-size:19px">🍺</div>
+                    <div style="flex:1;height:44px;border-radius:10px;background:rgba(251,246,236,.9);display:flex;align-items:center;justify-content:center;font-size:19px">🍺</div>
+                    <div style="flex:1;height:44px;border-radius:10px;background:rgba(251,246,236,.9);display:flex;align-items:center;justify-content:center;font-size:19px">🍺</div>
+                  </div>
+                </div>
+
+                <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#E7F0E4;border:1.5px solid #A9C6A4;border-radius:22px;padding:18px;animation:pop .35s ease">
+                    <div style="font:700 15px 'Bricolage Grotesque';color:#2F5A2D">Slot held — {{ slot }}</div>
+                    <div style="font:400 13.5px/1.55 'IBM Plex Sans';color:#3D6B3B;margin-top:6px">Bring a bag. Ring the bell marked <b>Van Dijk</b>. Empty bottles back next time gets you a free extra.</div>
+                    <button onClick="{{ unbook }}" style="margin-top:12px;background:none;border:1.5px solid #A9C6A4;border-radius:12px;padding:9px 13px;color:#2F5A2D;font:600 12.5px 'IBM Plex Sans';cursor:pointer">Change slot</button>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;gap:10px">
+                    <div style="font:700 13px 'Bricolage Grotesque';color:#1B1512;letter-spacing:.02em">RESERVE A COLLECTION SLOT</div>
+                    <div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63;margin-top:-4px">Provisional — confirmed the day the caps go on.</div>
+                    <button onClick="{{ pickA }}" style="text-align:left;background:#fff;border:1.5px solid #E7DCC6;border-radius:18px;padding:15px 16px;cursor:pointer" style-hover="border-color:#F0B429;background:#FFFDF7"><div style="font:700 14.5px 'Bricolage Grotesque';color:#1B1512">Sun 8 Sep · 14:00–17:00</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63;margin-top:3px">Bottling-day open house · taste it flat, take it home</div></button>
+                    <button onClick="{{ pickB }}" style="text-align:left;background:#fff;border:1.5px solid #E7DCC6;border-radius:18px;padding:15px 16px;cursor:pointer" style-hover="border-color:#F0B429;background:#FFFDF7"><div style="font:700 14.5px 'Bricolage Grotesque';color:#1B1512">Wed 17 Sep · 18:00–21:00</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63;margin-top:3px">Midweek pickup · properly carbonated by now</div></button>
+                    <button onClick="{{ pickC }}" style="text-align:left;background:#fff;border:1.5px solid #E7DCC6;border-radius:18px;padding:15px 16px;cursor:pointer" style-hover="border-color:#F0B429;background:#FFFDF7"><div style="font:700 14.5px 'Bricolage Grotesque';color:#1B1512">Sat 27 Sep · 11:00–15:00</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63;margin-top:3px">Last call · window shuts at 15:00 sharp</div></button>
+                  </div>
+                </sc-if>
+
+                <div style="background:#F4EEE1;border-radius:18px;padding:15px;font:400 12.5px/1.55 'IBM Plex Sans';color:#8A7A63">Can't make any of them? Message Joris and he'll keep your crate in the cellar a little longer.</div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="position:absolute;left:14px;right:14px;bottom:14px;height:66px;background:rgba(27,21,18,.96);backdrop-filter:blur(12px);border-radius:24px;display:flex;align-items:center;padding:0 8px;z-index:7">
+            <button onClick="{{ goBrew }}" style="{{ navBrewStyle }}"><span style="font-size:17px">🫧</span>Brew</button>
+            <button onClick="{{ goJournal }}" style="{{ navJournalStyle }}"><span style="font-size:17px">📓</span>Journal</button>
+            <button onClick="{{ goRecipe }}" style="{{ navRecipeStyle }}"><span style="font-size:17px">🌾</span>Recipe</button>
+            <button onClick="{{ goPickup }}" style="{{ navPickupStyle }}"><span style="font-size:17px">📦</span>Pickup</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ ADMIN ============ -->
+      <sc-if value="{{ isAdminMode }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;background:#14110F">
+          <div style="flex:none;padding:56px 22px 14px;color:#FBF6EC">
+            <div style="font:600 10.5px 'IBM Plex Mono';letter-spacing:.16em;color:#7BC47F;text-transform:uppercase">Host console</div>
+            <div style="font:800 25px 'Bricolage Grotesque';letter-spacing:-.03em;margin-top:4px">Joris' kitchen</div>
+          </div>
+
+          <div style="flex:1;overflow-y:auto;padding:6px 20px 40px;display:flex;flex-direction:column;gap:14px">
+
+            <sc-if value="{{ adminList }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ newBatch }}" style="background:#F0B429;border:none;border-radius:20px;padding:16px;font:800 15px 'Bricolage Grotesque';color:#1B1512;cursor:pointer" style-hover="background:#FFC94A">+ New batch &amp; access code</button>
+
+              <div style="font:700 12px 'Bricolage Grotesque';color:rgba(251,246,236,.45);letter-spacing:.1em;margin-top:4px">ACTIVE</div>
+
+              <div style="background:#221D19;border:1px solid #33291F;border-radius:20px;padding:16px">
+                <div style="display:flex;justify-content:space-between;align-items:start">
+                  <div><div style="font:700 16px 'Bricolage Grotesque';color:#FBF6EC">Nachtwacht Dubbel</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63;margin-top:2px">Belgian Dubbel · 20 L · brewed 14 Aug</div></div>
+                  <div style="background:#3B2E12;color:#F0B429;border-radius:8px;padding:5px 8px;font:600 11px 'IBM Plex Mono';letter-spacing:.08em">MALT-482</div>
+                </div>
+                <div style="height:7px;border-radius:99px;background:#33291F;margin-top:14px;overflow:hidden"><div style="height:100%;width:67%;background:linear-gradient(90deg,#F0B429,#E2711D)"></div></div>
+                <div style="display:flex;justify-content:space-between;margin-top:9px;font:500 11.5px 'IBM Plex Mono';color:#8A7A63"><span>DAY 16 · CONDITIONING</span><span>6 GUESTS</span></div>
+                <div style="display:flex;gap:8px;margin-top:14px">
+                  <button onClick="{{ openPost }}" style="flex:1;background:#33291F;border:none;border-radius:12px;padding:11px;color:#FBF6EC;font:600 12.5px 'IBM Plex Sans';cursor:pointer" style-hover="background:#453728">Post update</button>
+                  <button onClick="{{ bottle }}" style="flex:1;background:#33291F;border:none;border-radius:12px;padding:11px;color:#7BC47F;font:600 12.5px 'IBM Plex Sans';cursor:pointer" style-hover="background:#453728">Mark bottled</button>
+                </div>
+                <sc-if value="{{ bottled }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:10px;background:#1D2A1C;border-radius:12px;padding:11px;font:500 12px 'IBM Plex Sans';color:#7BC47F">Bottled today. 20-day pickup window open until 20 Sep — all 6 guests notified.</div>
+                </sc-if>
+              </div>
+
+              <div style="background:#221D19;border:1px solid #33291F;border-radius:20px;padding:16px;opacity:.62">
+                <div style="display:flex;justify-content:space-between;align-items:start">
+                  <div><div style="font:700 16px 'Bricolage Grotesque';color:#FBF6EC">Zomerzon Saison</div><div style="font:400 12.5px 'IBM Plex Sans';color:#8A7A63;margin-top:2px">Saison · 20 L · bottled 2 Aug</div></div>
+                  <div style="background:#3B2E12;color:#F0B429;border-radius:8px;padding:5px 8px;font:600 11px 'IBM Plex Mono';letter-spacing:.08em">SUNN-119</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:12px;font:500 11.5px 'IBM Plex Mono';color:#8A7A63"><span>PICKUP · 4 DAYS LEFT</span><span>3 / 5 COLLECTED</span></div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ adminNew }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#221D19;border:1px solid #33291F;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                <div style="font:700 16px 'Bricolage Grotesque';color:#FBF6EC">New batch</div>
+                <div><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">BATCH NAME</div><input value="{{ nb }}" onChange="{{ onNb }}" placeholder="Nachtwacht Dubbel" style="width:100%;box-sizing:border-box;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:13px 14px;font:600 15px 'IBM Plex Sans';color:#FBF6EC;outline:none" style-focus="border-color:#F0B429"></div>
+                <div style="display:flex;gap:10px">
+                  <div style="flex:1"><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">STYLE</div><input value="{{ ns }}" onChange="{{ onNs }}" placeholder="Belgian Dubbel" style="width:100%;box-sizing:border-box;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:13px 14px;font:500 14px 'IBM Plex Sans';color:#FBF6EC;outline:none" style-focus="border-color:#F0B429"></div>
+                  <div style="width:96px"><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">VOLUME</div><div style="background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:13px 14px;font:500 14px 'IBM Plex Sans';color:#8A7A63">20 L</div></div>
+                </div>
+                <div><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">BREW DATE · GUEST SEATS</div>
+                  <div style="display:flex;gap:10px"><div style="flex:1;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:13px 14px;font:500 14px 'IBM Plex Sans';color:#FBF6EC">Sat 13 Sep</div><div style="width:96px;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:13px 14px;font:500 14px 'IBM Plex Sans';color:#FBF6EC">6 seats</div></div>
+                </div>
+                <div><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">RECIPE</div>
+                  <sc-if value="{{ noRecipe }}" hint-placeholder-val="{{ true }}">
+                    <label onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="{{ dropStyle }}">
+                      <div style="font-size:23px">📄</div>
+                      <div style="font:700 13.5px 'Bricolage Grotesque';color:#FBF6EC;text-align:center">{{ dropTitle }}</div>
+                      <div style="font:400 11.5px/1.45 'IBM Plex Sans';color:#8A7A63;text-align:center;max-width:236px">BeerSmith, Brewfather or Brewer's Friend export — any HTML with the grain bill in it. Or tap to browse.</div>
+                      <input type="file" accept=".html,.htm,text/html" onChange="{{ onFile }}" style="display:none">
+                    </label>
+                    <sc-if value="{{ parseError }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top:8px;font:500 12px/1.45 'IBM Plex Sans';color:#F2856B">Nothing recipe-shaped in that file. Drop an HTML recipe export, or type it in by hand.</div>
+                    </sc-if>
+                  </sc-if>
+                  <sc-if value="{{ hasRecipe }}" hint-placeholder-val="{{ false }}">
+                    <div style="background:#14110F;border:1.5px solid #4C7C4A;border-radius:14px;padding:14px;animation:pop .3s ease">
+                      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px">
+                        <div style="font:600 10.5px 'IBM Plex Mono';color:#7BC47F;letter-spacing:.08em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">READ FROM {{ srcName }}</div>
+                        <button onClick="{{ clearRecipe }}" style="flex:none;background:none;border:none;color:#8A7A63;font:600 11.5px 'IBM Plex Sans';cursor:pointer;padding:0">Replace</button>
+                      </div>
+                      <sc-for list="{{ lines }}" as="ln" hint-placeholder-count="4">
+                        <div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid #241D17;font:500 12.5px 'IBM Plex Sans';color:#C9BCA6"><span>{{ ln.label }}</span><b style="color:#FBF6EC;white-space:nowrap">{{ ln.value }}</b></div>
+                      </sc-for>
+                      <div style="font:400 11.5px/1.45 'IBM Plex Sans';color:#8A7A63;margin-top:10px">This becomes the guests' recipe card. Anything it missed you can edit after creating the batch.</div>
+                    </div>
+                  </sc-if>
+                </div>
+                <div style="background:#14110F;border:1.5px dashed #F0B429;border-radius:16px;padding:16px;text-align:center">
+                  <div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.14em">GUEST ACCESS CODE</div>
+                  <div style="font:700 30px 'IBM Plex Mono';color:#F0B429;letter-spacing:.1em;margin-top:6px">{{ newCode }}</div>
+                  <div style="font:400 12px 'IBM Plex Sans';color:#8A7A63;margin-top:6px">Paste into your Airbnb / GetYourGuide confirmation. One code per batch, works for all 6 guests.</div>
+                </div>
+                <div style="display:flex;gap:10px">
+                  <button onClick="{{ cancelNew }}" style="background:#33291F;border:none;border-radius:14px;padding:14px 16px;color:#8A7A63;font:600 13px 'IBM Plex Sans';cursor:pointer">Cancel</button>
+                  <button onClick="{{ saveNew }}" style="flex:1;background:#F0B429;border:none;border-radius:14px;padding:14px;color:#1B1512;font:800 14px 'Bricolage Grotesque';cursor:pointer" style-hover="background:#FFC94A">Create batch</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ adminPost }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#221D19;border:1px solid #33291F;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                <div style="font:700 16px 'Bricolage Grotesque';color:#FBF6EC">Day 17 update · Nachtwacht Dubbel</div>
+                <div style="height:110px;border:1.5px dashed #453728;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A7A63"><div style="font-size:22px">📷</div><div style="font:500 12px 'IBM Plex Sans'">Add photo or 10s video of the airlock</div></div>
+                <textarea value="{{ post }}" onChange="{{ onPost }}" placeholder="What does it look, smell and taste like today?" style="width:100%;box-sizing:border-box;height:86px;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:13px 14px;font:400 13.5px/1.5 'IBM Plex Sans';color:#FBF6EC;outline:none;resize:none" style-focus="border-color:#F0B429"></textarea>
+                <div style="display:flex;gap:10px">
+                  <div style="flex:1"><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">GRAVITY</div><input placeholder="1.016" style="width:100%;box-sizing:border-box;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:12px 14px;font:600 14px 'IBM Plex Mono';color:#FBF6EC;outline:none"></div>
+                  <div style="flex:1"><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">TEMP °C</div><input placeholder="19.4" style="width:100%;box-sizing:border-box;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:12px 14px;font:600 14px 'IBM Plex Mono';color:#FBF6EC;outline:none"></div>
+                  <div style="flex:1"><div style="font:600 10.5px 'IBM Plex Mono';color:#8A7A63;letter-spacing:.1em;margin-bottom:6px">BUB/MIN</div><input placeholder="3" style="width:100%;box-sizing:border-box;background:#14110F;border:1.5px solid #33291F;border-radius:14px;padding:12px 14px;font:600 14px 'IBM Plex Mono';color:#FBF6EC;outline:none"></div>
+                </div>
+                <div style="display:flex;gap:10px">
+                  <button onClick="{{ cancelNew }}" style="background:#33291F;border:none;border-radius:14px;padding:14px 16px;color:#8A7A63;font:600 13px 'IBM Plex Sans';cursor:pointer">Back</button>
+                  <button onClick="{{ cancelNew }}" style="flex:1;background:#F0B429;border:none;border-radius:14px;padding:14px;color:#1B1512;font:800 14px 'Bricolage Grotesque';cursor:pointer" style-hover="background:#FFC94A">Publish to 6 guests</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="font:400 12px 'IBM Plex Sans';color:#8A7A63;max-width:420px;text-align:center">Guest code <b style="color:#1B1512">MALT-482</b> · switch to <b style="color:#1B1512">Host</b> above to create a batch and generate a code.</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:980}}">
+class Component extends DCLogic {
+  state = { mode: 'gate', tab: 'brew', code: '', gateError: false, deep: false, slot: null,
+            admin: 'list', nb: '', ns: '', post: '', bottled: false, newCode: 'BREW-731',
+            recipe: null, dragging: false, parseError: false };
+
+  ingest(text, fileName) {
+    let doc;
+    try { doc = new DOMParser().parseFromString(text, 'text/html'); } catch (e) { doc = null; }
+    if (!doc) return this.setState({ parseError: true });
+    const flat = (doc.body ? doc.body.innerText || doc.body.textContent : text) || '';
+    const lines = [];
+    const push = (label, value) => {
+      if (!label || !value) return;
+      if (lines.length >= 9) return;
+      if (lines.some(l => l.label === label)) return;
+      lines.push({ label: label.trim().slice(0, 40), value: String(value).trim().slice(0, 22) });
+    };
+
+    doc.querySelectorAll('tr').forEach(tr => {
+      const c = Array.from(tr.querySelectorAll('td,th')).map(x => (x.textContent || '').replace(/\s+/g, ' ').trim()).filter(Boolean);
+      if (c.length < 2) return;
+      const amt = c.find(v => /^\d+([.,]\d+)?\s*(kg|g|lb|oz|l|ml|pkg|vial)\b/i.test(v));
+      const nameCell = c.find(v => v !== amt && /[a-z]{3}/i.test(v) && !/^\d/.test(v));
+      if (amt && nameCell) push(nameCell, amt);
+    });
+
+    if (!lines.length) {
+      const re = /^\s*(\d+[.,]?\d*\s*(?:kg|g|lb|oz|pkg))\s+(?:of\s+)?(.{3,40}?)\s*$/i;
+      const re2 = /^\s*(.{3,40}?)\s+(\d+[.,]?\d*\s*(?:kg|g|lb|oz|pkg))\s*$/i;
+      flat.split('\n').forEach(raw => {
+        const l = raw.replace(/\s+/g, ' ').trim();
+        let m = l.match(re);
+        if (m) return push(m[2], m[1]);
+        m = l.match(re2);
+        if (m) push(m[1], m[2]);
+      });
+    }
+
+    const grab = (label, rx) => { const m = flat.match(rx); if (m) push(label, m[1]); };
+    grab('Original gravity', /\bOG[:\s]*([01]\.\d{3})/i);
+    grab('Final gravity', /\bFG[:\s]*([01]\.\d{3})/i);
+    grab('ABV', /\bABV[:\s]*(\d{1,2}[.,]?\d?\s*%?)/i);
+    grab('Bitterness', /\bIBU[s]?[:\s]*(\d{1,3})/i);
+    grab('Batch size', /\b(\d{1,3}\s*(?:L|liters|litres|gal))\b/i);
+
+    if (!lines.length) return this.setState({ parseError: true });
+
+    const title = (doc.querySelector('h1,h2,title') || {}).textContent;
+    const name = (title || fileName.replace(/\.html?$/i, '')).replace(/\s+/g, ' ').trim().slice(0, 40);
+    const styleM = flat.match(/\b(dubbel|tripel|saison|ipa|stout|porter|pilsner|witbier|lager|pale ale|amber ale|wheat beer|kölsch|bock)\b/i);
+    this.setState({
+      recipe: { lines: lines, src: fileName },
+      parseError: false, dragging: false,
+      nb: this.state.nb || name,
+      ns: this.state.ns || (styleM ? styleM[1].replace(/^./, c => c.toUpperCase()) : '')
+    });
+  }
+
+  readFile(file) {
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = () => this.ingest(String(r.result || ''), file.name);
+    r.onerror = () => this.setState({ parseError: true, dragging: false });
+    r.readAsText(file);
+  }
+
+  nav(active) {
+    return 'flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:' +
+      (active ? 'rgba(240,180,41,.16)' : 'transparent') +
+      ';border:none;border-radius:18px;padding:9px 0;cursor:pointer;font:600 10.5px "IBM Plex Sans";color:' +
+      (active ? '#F0B429' : 'rgba(251,246,236,.5)');
+  }
+  seg(active) {
+    return 'border:none;border-radius:999px;padding:6px 14px;cursor:pointer;font:600 12px "IBM Plex Sans";background:' +
+      (active ? '#F0B429' : 'transparent') + ';color:' + (active ? '#1B1512' : 'rgba(251,246,236,.6)');
+  }
+
+  renderVals() {
+    const s = this.state, t = s.tab, app = s.mode === 'app';
+    const set = (o) => this.setState(o);
+    return {
+      isGate: s.mode === 'gate', isApp: app, isAdminMode: s.mode === 'admin',
+      isBrew: app && t === 'brew', isJournal: app && t === 'journal',
+      isRecipe: app && t === 'recipe', isPickup: app && t === 'pickup',
+      code: s.code, gateError: s.gateError, deep: s.deep,
+      deepLabel: s.deep ? 'Less detail' : 'Explain the whole process',
+      booked: !!s.slot, notBooked: !s.slot, slot: s.slot,
+      adminList: s.mode === 'admin' && s.admin === 'list',
+      adminNew: s.mode === 'admin' && s.admin === 'new',
+      adminPost: s.mode === 'admin' && s.admin === 'post',
+      bottled: s.bottled, nb: s.nb, ns: s.ns, post: s.post, newCode: s.newCode,
+      noRecipe: !s.recipe, hasRecipe: !!s.recipe, parseError: s.parseError,
+      lines: s.recipe ? s.recipe.lines : [], srcName: s.recipe ? s.recipe.src : '',
+      dropTitle: s.dragging ? 'Let go — I\u2019ll read it' : 'Drop a recipe file here',
+      dropStyle: 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:22px 14px;border-radius:14px;cursor:pointer;transition:all .15s;border:1.5px dashed ' +
+        (s.dragging ? '#F0B429' : '#33291F') + ';background:' + (s.dragging ? '#241B0C' : '#14110F'),
+      onDragOver: (e) => { e.preventDefault(); if (!s.dragging) set({ dragging: true }); },
+      onDragLeave: () => set({ dragging: false }),
+      onDrop: (e) => { e.preventDefault(); set({ dragging: false }); this.readFile(e.dataTransfer && e.dataTransfer.files[0]); },
+      onFile: (e) => this.readFile(e.target.files && e.target.files[0]),
+      clearRecipe: (e) => { e.preventDefault(); set({ recipe: null, parseError: false }); },
+      tabGuestStyle: this.seg(s.mode !== 'admin'), tabAdminStyle: this.seg(s.mode === 'admin'),
+      navBrewStyle: this.nav(t === 'brew'), navJournalStyle: this.nav(t === 'journal'),
+      navRecipeStyle: this.nav(t === 'recipe'), navPickupStyle: this.nav(t === 'pickup'),
+      onCode: (e) => set({ code: e.target.value.toUpperCase(), gateError: false }),
+      unlock: () => {
+        const c = s.code.trim().toUpperCase().replace(/\s/g, '');
+        if (c === 'MALT-482' || c === 'MALT482' || c === '') set({ mode: 'app', tab: 'brew', gateError: false });
+        else set({ gateError: true });
+      },
+      lock: () => set({ mode: 'gate', code: '' }),
+      setGuest: () => set({ mode: s.code ? 'app' : 'gate' }),
+      setAdmin: () => set({ mode: 'admin', admin: 'list' }),
+      goBrew: () => set({ tab: 'brew' }), goJournal: () => set({ tab: 'journal' }),
+      goRecipe: () => set({ tab: 'recipe' }), goPickup: () => set({ tab: 'pickup' }),
+      toggleDeep: () => set({ deep: !s.deep }),
+      pickA: () => set({ slot: 'Sun 8 Sep, 14:00–17:00' }),
+      pickB: () => set({ slot: 'Wed 17 Sep, 18:00–21:00' }),
+      pickC: () => set({ slot: 'Sat 27 Sep, 11:00–15:00' }),
+      unbook: () => set({ slot: null }),
+      newBatch: () => set({ admin: 'new', newCode: this.gen() }),
+      openPost: () => set({ admin: 'post' }),
+      cancelNew: () => set({ admin: 'list' }),
+      saveNew: () => set({ admin: 'list' }),
+      bottle: () => set({ bottled: true }),
+      onNb: (e) => set({ nb: e.target.value }), onNs: (e) => set({ ns: e.target.value }),
+      onPost: (e) => set({ post: e.target.value })
+    };
+  }
+
+  gen() {
+    const w = ['MALT', 'HOPS', 'BREW', 'YEAST', 'WORT', 'CASK'];
+    return w[Math.floor(Math.random() * w.length)] + '-' + (100 + Math.floor(Math.random() * 899));
+  }
+}
+
+</script>
+</body>
+</html>
